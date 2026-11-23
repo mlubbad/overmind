@@ -42,9 +42,9 @@ def tool_calls(span):
 
 def matches(actual, expected):
     if MODE == "subset":
-        return all(actual.get(key) == value for key, value in expected.items())
+        return all(key in actual and actual[key] == value for key, value in expected.items())
     if MODE == "superset":
-        return all(expected.get(key) == value for key, value in actual.items())
+        return all(key in expected and expected[key] == value for key, value in actual.items())
     return actual == expected
 
 

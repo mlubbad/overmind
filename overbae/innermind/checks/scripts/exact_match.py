@@ -8,7 +8,7 @@ def evaluate(span):
     output = span.output
     if not REFERENCE or not output:
         return None
-    got, want = output, REFERENCE.strip()
+    got, want = output.strip(), REFERENCE.strip()
     if CASE_INSENSITIVE:
         got, want = got.lower(), want.lower()
     if got == want:

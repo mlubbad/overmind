@@ -63,10 +63,18 @@ def violation(value, rules):
     if expected in TYPE_CHECKS and not TYPE_CHECKS[expected](value):
         return f"expected {expected}"
     enum = rules.get("enum")
-    if enum and isinstance(value, str):
-        allowed = {str(item).strip().lower() for item in enum}
-        if value.strip().lower() not in allowed:
-            return f"{value!r} not in {sorted(allowed)}"
+    if enum:
+        if isinstance(value, str):
+            allowed = {item.strip().lower() for item in enum if isinstance(item, str)}
+            if value.strip().lower() not in allowed:
+                return f"{value!r} not in {sorted(allowed)}"
+        else:
+            matched = any(
+                (isinstance(value, bool) == isinstance(item, bool)) and value == item
+                for item in enum
+            )
+            if not matched:
+                return f"{value!r} not in {list(enum)!r}"
     if is_number(value):
         low, high = rules.get("min"), rules.get("max")
         if low is not None and value < low:

@@ -4,6 +4,7 @@ MAX_SECONDS = None
 
 
 def evaluate(span):
-    if MAX_SECONDS is None or not span.duration_s:
+    duration = span.duration_s
+    if MAX_SECONDS is None or isinstance(duration, bool) or not isinstance(duration, (int, float)):
         return None
-    return span.duration_s <= MAX_SECONDS, f"{round(span.duration_s, 3)}s, budget {MAX_SECONDS}s"
+    return duration <= MAX_SECONDS, f"{round(duration, 3)}s, budget {MAX_SECONDS}s"

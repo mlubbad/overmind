@@ -5,6 +5,6 @@ MAX_COST = None
 
 def evaluate(span):
     cost = span.usage.get("genai.cost", span.usage.get("gen_ai.usage.cost"))
-    if MAX_COST is None or not isinstance(cost, (int, float)):
+    if MAX_COST is None or isinstance(cost, bool) or not isinstance(cost, (int, float)):
         return None
     return cost <= MAX_COST, f"${cost}, budget ${MAX_COST}"
